@@ -1,0 +1,32 @@
+{
+  "name": "ai-agents-orchestration-training",
+  "private": true,
+  "workspaces": [
+    "frontend-node"
+  ],
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "format": "prettier --write . && gofmt -w backend-go",
+    "format:check": "prettier --check . && npm run format:go:check",
+    "format:go:check": "files=$(gofmt -l backend-go) && if [ -n \"$files\" ]; then printf 'Run gofmt on:\\n%s\\n' \"$files\"; exit 1; fi",
+    "lint": "eslint . && npm run lint:workflows",
+    "lint:workflows": "go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12",
+    "typecheck": "npm run build --workspace frontend-node",
+    "check:go": "cd backend-go && go vet ./... && go test -race ./...",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run check:go",
+    "secrets:staged": "gitleaks git --pre-commit --staged --redact",
+    "secrets": "gitleaks git --log-opts=--all --redact"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^10.0.0",
+    "eslint": "^10.0.0",
+    "lefthook": "2.2.2",
+    "prettier": "^3.0.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

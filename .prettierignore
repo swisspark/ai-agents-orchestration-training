@@ -1,0 +1,7 @@
+node_modules/
+dist/
+coverage/
+slides/
+LICENSE
+package-lock.json
+backend-go/

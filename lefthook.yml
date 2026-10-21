@@ -1,0 +1,18 @@
+pre-commit:
+  commands:
+    secrets:
+      run: npm run secrets:staged
+    quality:
+      run: npm run check
+
+commit-msg:
+  commands:
+    conventional:
+      run: npx --no-install commitlint --edit "{1}"
+
+pre-push:
+  commands:
+    secrets:
+      run: npm run secrets
+    quality:
+      run: npm run check
